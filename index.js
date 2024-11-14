@@ -89,8 +89,8 @@ app.post('/persons', (req, res) => {
     res.json(note);
 });
 
-app.put('/api/notes/:id', (req, res) => {
-    const id = Number(req.params.id);
+app.put('/persons/:id', (req, res) => {
+    const id = String(req.params.id);
     const body = req.body;
     const note = notes.find(note => note.id === id);
     if (!note) {
@@ -99,7 +99,7 @@ app.put('/api/notes/:id', (req, res) => {
 
     const updatedNote = {
         ...note,
-        important: body.important
+        number: body.number
     };
 
     notes = notes.map(note => note.id !== id ? note : updatedNote);
