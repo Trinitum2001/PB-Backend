@@ -71,23 +71,26 @@ const generateId = () => {
     return maxId + 1;
 };
 
-app.post('/persons', (req, res) => {
-    const body = req.body;
-    if (!body.name || !body.number) {
-        return res.status(400).json({
-            error: 'content missing'
-        });
+app.post('/api/persons', (req, res) => {
+    const { name, number } = req.body;
+  
+    if (!name || !number) {
+      return res.status(400).json({ error: 'El nombre y el número son requeridos' });
     }
-
-    const note = {
-        id: generateId(),
-        name: body.name,
-        number: body.number
+  
+    if (persons.find(person => person.name === name)) {
+      return res.status(400).json({ error: 'El nombre ya existe en la agenda' });
+    }
+  
+    const newPerson = {
+      id: generateId(),
+      name,
+      number
     };
-
-    notes = [...notes, note];
-    res.json(note);
-});
+  
+    persons = persons.concat(newPerson);
+    res.json(newPerson);
+  });
 
 app.put('/persons/:id', (req, res) => {
     const id = String(req.params.id);
