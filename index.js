@@ -83,7 +83,7 @@ app.post('/api/persons', (req, res) => {
     }
   
     const newPerson = {
-      id: generateId(),
+      id: Math.floor(Math.random() * 10000),
       name,
       number
     };
